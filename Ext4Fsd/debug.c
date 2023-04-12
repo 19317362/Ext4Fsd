@@ -1,4 +1,4 @@
-/*
+﻿/*
  * COPYRIGHT:        See COPYRIGHT.TXT
  * PROJECT:          Ext2 File System Driver for WinNT/2K/XP
  * FILE:             Debug.c
@@ -2687,7 +2687,7 @@ Ext2AllocatePool(
     IN ULONG Tag
 )
 {
-    return ExAllocatePoolWithTag(
+    return ExAllocatePool2(
                PoolType,
                NumberOfBytes,
                Tag);

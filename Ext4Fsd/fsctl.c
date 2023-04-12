@@ -1,4 +1,4 @@
-/*
+﻿/*
  * COPYRIGHT:        See COPYRIGHT.TXT
  * PROJECT:          Ext2 File System Driver for WinNT/2K/XP
  * FILE:             fsctl.c
@@ -2601,7 +2601,7 @@ Ext2CheckDismount (
     BOOLEAN bDeleted = FALSE, bTearDown = FALSE;
     ULONG   UnCleanCount = 0;
 
-    NewVpb = ExAllocatePoolWithTag(NonPagedPool, VPB_SIZE, TAG_VPB);
+    NewVpb = ExAllocatePool2(NonPagedPool, VPB_SIZE, TAG_VPB);
     if (NewVpb == NULL) {
         DEBUG(DL_ERR, ( "Ex2CheckDismount: failed to allocate NewVpb.\n"));
         return FALSE;

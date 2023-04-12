@@ -1,4 +1,4 @@
-/*
+﻿/*
  * COPYRIGHT:        See COPYRIGHT.TXT
  * PROJECT:          Ext2 File System Driver for WinNT/2K/XP
  * FILE:             memory.c
@@ -459,7 +459,7 @@ struct dentry *Ext2BuildEntry(PEXT2_VCB Vcb, PEXT2_MCB Dcb, PUNICODE_STRING File
             de->d_parent = Dcb->de;
 
         Oem.MaximumLength = (USHORT)Ext2UnicodeToOEMSize(Vcb, FileName) + 1;
-        Oem.Buffer = ExAllocatePool(PagedPool, Oem.MaximumLength);
+        Oem.Buffer = ExAllocatePool2(PagedPool, Oem.MaximumLength,0x31838087); //WPS1
         if (!Oem.Buffer) {
             DEBUG(DL_ERR, ( "Ex2BuildEntry: failed to allocate OEM name.\n"));
             __leave;
