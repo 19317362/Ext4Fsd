@@ -1,7 +1,7 @@
-; ext2fsd.nsi
+ï»¿; ext2fsd.nsi
 ;
 ; This is a NSIS script to create an install program for the Ext2Fsd project
-; developed by Bo Brantén <bosse@acc.umu.se> in 2020 to help beta testing.
+; developed by Bo Branté–š <bosse@acc.umu.se> in 2020 to help beta testing.
 ;
 ; To build an installation program follow these steps:
 ; 1. Install NSIS (Nullsoft Scriptable Install System)
@@ -18,7 +18,7 @@ Name "Ext2,Ext3,Ext4 filesystem driver"
 !define DRIVERNAME "Ext2Fsd"
 Icon "..\Ext2Mgr\res\Ext2Mgr.ico"
 Caption "${PROJECTNAME} 0.70 beta"
-DirText "This is a beta release of the ${PROJECTNAME} project from Bo Brantén to test the new ext4 features metadata checksums and 64-bit block numbers. You may choose the install directory:"
+DirText "This is a beta release of the ${PROJECTNAME} project from Bo Branté–š to test the new ext4 features metadata checksums and 64-bit block numbers. You may choose the install directory:"
 InstallDir "$PROGRAMFILES\${PROJECTNAME}"
 OutFile "${PROJECTNAME}-setup.exe"
 
@@ -30,10 +30,10 @@ OutFile "${PROJECTNAME}-setup.exe"
 !define SRVPATH_X64 "..\Ext2Srv\Release\x64"
 !define SYSPATH_X86 "..\Ext4Fsd\Release\x86"
 !define SYSPATH_X64 "..\Ext4Fsd\Release\x64"
-!define MSVPATH_X86 "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.28.29325\x86\Microsoft.VC142.CRT"
-!define MSVPATH_X64 "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.28.29325\x64\Microsoft.VC142.CRT"
-!define MFCPATH_X86 "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.28.29325\x86\Microsoft.VC142.MFC"
-!define MFCPATH_X64 "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.28.29325\x64\Microsoft.VC142.MFC"
+!define MSVPATH_X86 "C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Redist\MSVC\14.36.32522\x86\Microsoft.VC143.CRT"
+!define MSVPATH_X64 "C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Redist\MSVC\14.36.32522\x64\Microsoft.VC143.CRT"
+!define MFCPATH_X86 "C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Redist\MSVC\14.36.32522\x86\Microsoft.VC143.MFC"
+!define MFCPATH_X64 "C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Redist\MSVC\14.36.32522\x64\Microsoft.VC143.MFC"
 !define VCDLL_X86 "vcruntime140"
 !define VCDLL_X64 "vcruntime140_1"
 !define MFCDLL "mfc140"
@@ -65,12 +65,12 @@ RequestExecutionLevel admin
 
 Function .onInit
     SetShellVarContext all
-    IfFileExists $WINDIR\SysWOW64\*.* 0 else
+    ;IfFileExists $WINDIR\SysWOW64\*.* 0 else
         StrCpy $INSTDIR "$PROGRAMFILES64\${PROJECTNAME}"
-        Goto endif
-    else:
-        StrCpy $INSTDIR "$PROGRAMFILES\${PROJECTNAME}"
-    endif:
+    ;    Goto endif
+    ;else:
+    ;    StrCpy $INSTDIR "$PROGRAMFILES\${PROJECTNAME}"
+    ;endif:
 FunctionEnd
 
 Section "Driver"
@@ -84,7 +84,7 @@ install:
 SetOutPath $INSTDIR
 
 ; select the files.
-IfFileExists $WINDIR\SysWOW64\*.* 0 else
+;IfFileExists $WINDIR\SysWOW64\*.* 0 else
     ; 64-bit.
     File "${MSVPATH_X64}\${VCDLL_X64}.dll"
     File "${MFCPATH_X64}\${MFCDLL}.dll"
@@ -92,16 +92,16 @@ IfFileExists $WINDIR\SysWOW64\*.* 0 else
     File "${SRVPATH_X64}\Ext2Srv.exe"
     File "${SYSPATH_X64}\${DRIVERNAME}.pdb"
     File "${SYSPATH_X64}\${DRIVERNAME}.sys"
-    Goto endif
-else:
+;    Goto endif
+;else:
     ; 32-bit.
-    File "${MSVPATH_X86}\${VCDLL_X86}.dll"
-    File "${MFCPATH_X86}\${MFCDLL}.dll"
-    File "${MGRPATH_X86}\Ext2Mgr.exe"
-    File "${SRVPATH_X86}\Ext2Srv.exe"
-    File "${SYSPATH_X86}\${DRIVERNAME}.pdb"
-    File "${SYSPATH_X86}\${DRIVERNAME}.sys"
-endif:
+;    File "${MSVPATH_X86}\${VCDLL_X86}.dll"
+;    File "${MFCPATH_X86}\${MFCDLL}.dll"
+;    File "${MGRPATH_X86}\Ext2Mgr.exe"
+;    File "${SRVPATH_X86}\Ext2Srv.exe"
+;    File "${SYSPATH_X86}\${DRIVERNAME}.pdb"
+;    File "${SYSPATH_X86}\${DRIVERNAME}.sys"
+;endif:
 
 File "..\ext4fsd\${DRIVERNAME}.inf"
 
@@ -112,12 +112,12 @@ File "..\ext4fsd\notes.txt"
 File "..\ext4fsd\readme.txt"
 
 ; install the driver.
-IfFileExists $WINDIR\SysWOW64\*.* 0 else32
+;IfFileExists $WINDIR\SysWOW64\*.* 0 else32
     ExecWait '"$WINDIR\sysnative\rundll32.exe" setupapi.dll,InstallHinfSection DefaultInstall 132 $INSTDIR\${DRIVERNAME}.inf'
-    Goto endif32
-else32:
-    ExecWait '"rundll32.exe" setupapi.dll,InstallHinfSection DefaultInstall 132 $INSTDIR\${DRIVERNAME}.inf'
-endif32:
+;    Goto endif32
+;else32:
+;    ExecWait '"rundll32.exe" setupapi.dll,InstallHinfSection DefaultInstall 132 $INSTDIR\${DRIVERNAME}.inf'
+;endif32:
 
 ; create the uninstaller.
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROJECTNAME}" \
@@ -148,12 +148,12 @@ Function un.onInit
         Abort
     continue:
 
-    IfFileExists $WINDIR\SysWOW64\*.* 0 else
+    ;IfFileExists $WINDIR\SysWOW64\*.* 0 else
         StrCpy $INSTDIR "$PROGRAMFILES64\${PROJECTNAME}"
-        Goto endif
-    else:
-        StrCpy $INSTDIR "$PROGRAMFILES\${PROJECTNAME}"
-    endif:
+    ;    Goto endif
+    ;else:
+    ;    StrCpy $INSTDIR "$PROGRAMFILES\${PROJECTNAME}"
+    ;endif:
 FunctionEnd
 
 Section "Uninstall"
@@ -164,14 +164,14 @@ ExecWait '"net.exe" stop ext2srv'
 ExecWait '"$INSTDIR\Ext2Srv.exe" /removeservice'
 
 ; uninstall the driver.
-IfFileExists $WINDIR\SysWOW64\*.* 0 else
+;IfFileExists $WINDIR\SysWOW64\*.* 0 else
     ExecWait '"$WINDIR\sysnative\rundll32.exe" setupapi.dll,InstallHinfSection DefaultUninstall 132 $INSTDIR\${DRIVERNAME}.inf'
     Delete $INSTDIR\${VCDLL_X64}.dll"
-    Goto endif
-else:
-    ExecWait '"rundll32.exe" setupapi.dll,InstallHinfSection DefaultUninstall 132 $INSTDIR\${DRIVERNAME}.inf'
-    Delete $INSTDIR\${VCDLL_X86}.dll"
-endif:
+;    Goto endif
+;else:
+;    ExecWait '"rundll32.exe" setupapi.dll,InstallHinfSection DefaultUninstall 132 $INSTDIR\${DRIVERNAME}.inf'
+;    Delete $INSTDIR\${VCDLL_X86}.dll"
+;endif:
 
 ; delete the start menu items.
 Delete "$SMPROGRAMS\${PROJECTNAME}\Documents\COPYRIGHT.lnk"
